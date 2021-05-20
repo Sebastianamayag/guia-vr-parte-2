@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>VR guia 2</title>
+    <meta name="description" content="360&deg; Image Gallery - A-Frame">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
+    
+    <!-- Image link template to be reused. -->
+    <script id="link" type="text/html">
+      <a-entity class="link"
+        geometry="primitive: plane; height: 1; width: 1"
+        material="shader: flat; src: ${thumb}"
+        event-set__mouseenter="scale: 1.2 1.2 1"
+        event-set__mouseleave="scale: 1 1 1"
+        event-set__click="_target: #image-360; _delay: 300; material.src: ${src}"
+        proxy-event="event: click; to: #image-360; as: fade"
+        sound="on: click; src: #click-sound"></a-entity>
+    </script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img id="playa" crossorigin="anonymous" src="https://l13.alamy.com/360es/2b1ha9a/sandy-city-beach-en-el-lago-4k-360-foto-2b1ha9a.jpg">
+        <img id="playa-thumb" crossorigin="anonymous" src="https://trucoslondres.com/wp-content/uploads/2017/05/playa.jpg">
+        <img id="isla-thumb" crossorigin="anonymous" src="https://ep01.epimg.net/elpais/imagenes/2018/11/28/paco_nadal/1543429426_215127_1543430726_noticia_normal.jpg">
+        <img id="isla" crossorigin="anonymous" src="https://l13.alamy.com/360es/2abaehm/vista-de-la-isla-desde-la-cima-de-cliff-en-el-dia-soleado-y-el-cielo-azul-4k-360-foto-2abaehm.jpg">
+        <img id="bosque-thumb" crossorigin="anonymous" src="https://ximagen.com/images/2020/03/20/Un-paisaje-hermoso-de-atardecer-con-flores-de-girasol-arbol-2020.jpg">
+        <img id="bosque" crossorigin="anonymous" src="https://l13.alamy.com/360es/2a0h9rt/puesta-de-sol-o-un-amanecer-en-el-campo-verde-con-cielo-azul-con-color-rosa-panorama-esferico-3d-con-angulo-de-vision-de-360-listo-para-la-realidad-virtual-o-vr-ful-2a0h9rt.jpg">
+      </a-assets>
+      <a-sky id="image-360" radius="10" src="#bosque">
+      </a-sky>
+      <!-- Image links. -->
+      <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
+        <a-entity template="src: #link" data-src="#isla" data-thumb="#isla-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#playa" data-thumb="#playa-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#bosque" data-thumb="#bosque-thumb"></a-entity>
+      </a-entity>
+      <!-- Camera + cursor. -->
+      <a-entity camera look-controls>
+        <a-cursor
+          id="cursor"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          event-set__mouseenter="_event: mouseenter; color: springgreen"
+          event-set__mouseleave="_event: mouseleave; color: black"
+          raycaster="objects: .link"></a-cursor>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
